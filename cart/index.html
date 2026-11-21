@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Order — LumiBelle Beauty Demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23c98b95'/%3E%3Cstop offset='1' stop-color='%23a45a66'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-size='28' font-weight='700' text-anchor='middle' font-family='Georgia,serif' fill='white'%3ELB%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#a45a66">
+<meta name="description" content="LumiBelle Beauty — fictional skincare and cosmetics demo store by BizWeb KH. Order via Telegram, no online payment.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div id="site-header" data-root="../" data-active="cart"></div>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="../index.html" data-i18n="foot_link_home">Home</a> / <span data-i18n="cart_breadcrumb">Cart</span>
+  </div>
+</div>
+
+<section class="container" style="padding-bottom:60px;">
+  <h1 data-i18n="cart_title" style="font-size:1.6rem;margin-bottom:8px;">Your Order</h1>
+  <p class="order-intro" data-i18n="ord_intro">Pick your products, then send your order on Telegram.</p>
+
+  <div id="cart-has-items">
+    <div class="cart-wrap">
+      <div>
+        <div id="cart-items"></div>
+        <div style="margin-top:20px;">
+          <a href="../shop/index.html" class="btn btn-outline" data-i18n="cart_continue">Continue Shopping</a>
+        </div>
+        <div class="order-form-card">
+          <h3 data-i18n="ord_cust_title">Your details</h3>
+          <div class="order-form-grid">
+            <div class="form-group"><label for="o-name"><span data-i18n="ord_name">Name</span> <span class="req">*</span></label><input type="text" id="o-name" autocomplete="name"></div>
+            <div class="form-group"><label for="o-contact"><span data-i18n="ord_contact">Phone / Telegram</span> <span class="req">*</span></label><input type="text" id="o-contact" autocomplete="tel"></div>
+            <div class="form-group full"><label for="o-address" data-i18n="ord_address">Delivery location</label><input type="text" id="o-address" autocomplete="street-address"></div>
+            <div class="form-group full"><label for="o-note" data-i18n="ord_note">Note</label><textarea id="o-note" rows="2"></textarea></div>
+          </div>
+        </div>
+      </div>
+      <div class="summary-card">
+        <h3 style="margin-bottom:14px;" data-i18n="summary_title">Order Summary</h3>
+        <div class="summary-row"><span data-i18n="summary_subtotal">Subtotal</span><span id="sum-subtotal"></span></div>
+        <div class="summary-row"><span data-i18n="summary_delivery">Delivery Fee</span><span data-i18n="summary_delivery_calc" style="font-size:.78rem;color:var(--ink-faint);"></span></div>
+        <div class="summary-row total"><span data-i18n="summary_total">Total</span><span id="sum-total"></span></div>
+
+        <button type="button" class="btn btn-telegram btn-block" id="tg-send-btn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.5c-.2 1-.9 1.3-1.7.8l-4.8-3.6-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.6 13 1.9 11.5c-1-.3-1-1 .2-1.5L20.400 3.100c.9-.3 1.700.2 1.500 1.200z"/></svg>
+          <span id="tg-label" data-i18n="ord_send_tg">Send order via Telegram</span>
+        </button>
+        <button type="button" class="btn btn-outline btn-block" id="copy-btn" style="margin-top:8px;" data-i18n="ord_copy">Copy order summary</button>
+        <p class="order-help" data-i18n="ord_tg_help"></p>
+        <p class="order-nopay" data-i18n="ord_no_pay"></p>
+
+        <details class="order-other">
+          <summary data-i18n="ord_or_other">Other options</summary>
+          <button type="button" class="btn btn-outline btn-block" id="fb-btn" style="margin-top:8px;" data-i18n="ord_send_fb">Copy &amp; open Messenger</button>
+          <p class="order-help" data-i18n="ord_fb_note"></p>
+        </details>
+
+        <div id="demo-result" class="demo-result" hidden role="status"></div>
+
+        <details class="order-preview" open>
+          <summary data-i18n="ord_preview">Message preview</summary>
+          <pre id="order-preview-text" tabindex="0"></pre>
+        </details>
+        <p class="order-demo-contact" data-i18n="ord_demo_contact"></p>
+      </div>
+    </div>
+    <p class="adv-link-row"><a href="../checkout/index.html" data-i18n="adv_link">View advanced payment demo (not in the $500 package)</a></p>
+  </div>
+
+  <div id="cart-empty" class="empty-state" style="display:none;">
+    <div class="icon">🛒</div>
+    <h3 data-i18n="cart_empty_title">Your cart is empty</h3>
+    <p data-i18n="cart_empty_desc">Browse our products and add items to your cart</p>
+    <a href="../shop/index.html" class="btn btn-primary" data-i18n="cart_shop_now">Start Shopping</a>
+  </div>
+</section>
+
+<div id="site-footer" data-root="../"></div>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/layout.js"></script>
+<script src="../js/order.js"></script>
+<script>
+function render(){
+  const items = cartDetailed();
+  document.getElementById("cart-has-items").style.display = items.length ? "block" : "none";
+  document.getElementById("cart-empty").style.display = items.length ? "none" : "block";
+  if (!items.length){ applyI18n(); return; }
+
+  const list = document.getElementById("cart-items");
+  list.innerHTML = "";
+  items.forEach(i=>{
+    const p = i.product;
+    const name = getLang()==="km" ? p.nameKm : p.name;
+    const row = document.createElement("div");
+    row.className = "cart-item";
+    row.innerHTML = `
+      <img src="${imgSrc(p.img)}" alt="${p.name}">
+      <div>
+        <div class="name">${name}</div>
+        <div class="cat" data-i18n="cat_${p.category}"></div>
+        <div class="price">${money(p.sale||p.price)}</div>
+      </div>
+      <div class="qty-selector">
+        <button class="q-minus">−</button>
+        <input type="text" value="${i.qty}" readonly>
+        <button class="q-plus">+</button>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:800;">${money((p.sale||p.price)*i.qty)}</div>
+        <button class="remove" data-i18n="delete">Remove</button>
+      </div>`;
+    row.querySelector(".q-minus").onclick = ()=>{ setCartQty(p.id, Math.max(1,i.qty-1)); render(); };
+    row.querySelector(".q-plus").onclick = ()=>{ setCartQty(p.id, i.qty+1); render(); };
+    row.querySelector(".remove").onclick = ()=>{ removeFromCart(p.id); render(); };
+    list.appendChild(row);
+  });
+
+  const subtotal = cartSubtotal();
+  document.getElementById("sum-subtotal").textContent = money(subtotal);
+  document.getElementById("sum-total").textContent = money(subtotal);
+  applyI18n();
+  updatePreview();
+}
+function updatePreview(){
+  const items = cartDetailed();
+  const pre = document.getElementById("order-preview-text");
+  if (pre) pre.textContent = items.length ? buildOrderSummaryText(getCustomerInfo(), items) : "";
+}
+document.addEventListener("DOMContentLoaded", ()=>{
+  render();
+  if (lbIsDemoMode()){
+    document.getElementById("tg-label").setAttribute("data-i18n","ord_send_tg_demo");
+    document.getElementById("fb-btn").setAttribute("data-i18n","ord_send_fb_demo");
+    applyI18n();
+  }
+  ["o-name","o-contact","o-address","o-note"].forEach(id=> document.getElementById(id).addEventListener("input", updatePreview));
+  document.getElementById("tg-send-btn").onclick = sendViaTelegram;
+  document.getElementById("copy-btn").onclick = copySummaryOnly;
+  document.getElementById("fb-btn").onclick = sendViaMessenger;
+});
+document.addEventListener("langchanged", ()=>{ render(); const b=document.getElementById("demo-result"); if(b) b.hidden=true; });
+</script>
+</body>
+</html>
