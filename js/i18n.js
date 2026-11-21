@@ -218,6 +218,7 @@ const I18N = {
     khqr_footer_note: "នេះជាការទូទាត់សាកល្បងសម្រាប់បង្ហាញប៉ុណ្ណោះ។ មិនមានប្រតិបត្តិការធនាគារពិតប្រាកដទេ។",
 
     // Order success
+    success_status_demo: "ការទូទាត់គំរូ — មិនត្រូវបានដំណើរការ",
     success_title: "បានបង្កើតការបញ្ជាទិញគំរូ (ក្លែងធ្វើ)",
     success_desc: "នេះគ្រាន់តែជាការបញ្ជាទិញគំរូដែលបានក្លែងធ្វើប៉ុណ្ណោះ។ គ្មានការបញ្ជាទិញពិតត្រូវបានដាក់ស្នើ ឬទទួលទេ ហើយក៏គ្មានការទូទាត់ណាមួយកើតឡើងដែរ។",
     order_no: "លេខការបញ្ជាទិញ",
@@ -514,6 +515,7 @@ const I18N = {
     khqr_demo_flag: "Demo KHQR",
     khqr_footer_note: "This is a demo payment for presentation only. No real bank transaction occurs.",
 
+    success_status_demo: "DEMO PAYMENT — NOT PROCESSED",
     success_title: "Demo Order Created (Simulated)",
     success_desc: "This is only a simulated demo order. No real order was submitted or received, and no payment was made.",
     order_no: "Order Number",
