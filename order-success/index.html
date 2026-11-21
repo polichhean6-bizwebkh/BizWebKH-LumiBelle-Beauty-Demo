@@ -61,7 +61,9 @@ function render(){
 
   const statusEl = document.getElementById("d-status");
   const badgeClass = order.paymentStatus === "paid" ? "paid" : (order.paymentStatus==="failed" ? "failed" : "pending");
-  statusEl.innerHTML = `<span class="status-badge ${badgeClass}">${payLabel(order.paymentStatus)}</span>`;
+  statusEl.innerHTML = order.paymentStatus === "paid"
+    ? `<span class="status-badge pending">${t("success_status_demo")}</span>`
+    : `<span class="status-badge ${badgeClass}">${payLabel(order.paymentStatus)}</span>`;
 
   document.getElementById("view-order-btn").href = location.href;
   document.getElementById("s-icon").textContent = order.paymentStatus === "failed" ? "⚠️" : "✅";
