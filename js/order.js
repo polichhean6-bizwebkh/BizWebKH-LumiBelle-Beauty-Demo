@@ -85,12 +85,20 @@ function readyOrderSummary(){
   return buildOrderSummaryText(c, items);
 }
 
-function showDemoResult(kind, summary){
+function selectPreview(){
+  const pre = document.getElementById("order-preview-text");
+  if (!pre) return;
+  const d = pre.closest("details"); if (d) d.open = true;
+  try{ const r = document.createRange(); r.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }catch(e){}
+  pre.focus();
+}
+function showDemoResult(kind, summary, copied){
   const box = document.getElementById("demo-result");
   if (!box) return;
   const enc = encodeURIComponent(summary);
   const example = kind==="tg" ? `https://t.me/<shop_username>?text=${enc}` : "https://m.me/<shop_page>";
-  box.innerHTML = `<b>${t("ord_demo_result_title")}</b><p>${t(kind==="tg" ? "ord_demo_result_tg" : "ord_demo_result_fb")}</p>` +
+  const status = copied ? `<p class="copy-ok"><b>${t("ord_copied")}</b> — ${t("ord_demo_copy_ok")}</p>` : `<p class="copy-fail" role="alert"><b>${t("ord_copy_failed_title")}</b> ${t("ord_demo_copy_fail")}</p>`;
+  box.innerHTML = `<b>${t("ord_demo_result_title")}</b>${status}<p>${t(kind==="tg" ? "ord_demo_result_tg" : "ord_demo_result_fb")}</p>` +
     `<div class="demo-link-label">${t("ord_demo_link_label")} (${enc.length})</div><code></code>`;
   box.querySelector("code").textContent = example.length > 260 ? example.slice(0,260) + "…" : example;
   box.hidden = false;
@@ -101,7 +109,7 @@ function sendViaTelegram(){
   const summary = readyOrderSummary();
   if (!summary) return;
   if (lbIsDemoMode()){
-    copyText(summary).then(ok=>{ showToast(ok ? t("ord_copied") : t("ord_copy_failed")); showDemoResult("tg", summary); });
+    copyText(summary).then(ok=>{ showToast(ok ? t("ord_copied") : t("ord_copy_failed")); showDemoResult("tg", summary, ok); if (!ok) selectPreview(); });
     return;
   }
   copyText(summary);                                   // safety net: always on the clipboard
@@ -117,17 +125,18 @@ function sendViaTelegram(){
 function copySummaryOnly(){
   const summary = readyOrderSummary();
   if (!summary) return;
-  copyText(summary).then(ok=> showToast(ok ? t("ord_copied") : t("ord_copy_failed")));
+  copyText(summary).then(ok=>{ showToast(ok ? t("ord_copied") : t("ord_copy_failed")); if (!ok) selectPreview(); });
 }
 function sendViaMessenger(){
   const summary = readyOrderSummary();
   if (!summary) return;
   if (lbIsDemoMode() || !LB_CONFIG.facebookPage){
-    copyText(summary).then(ok=>{ showToast(ok ? t("ord_copied") : t("ord_copy_failed")); showDemoResult("fb", summary); });
+    copyText(summary).then(ok=>{ showToast(ok ? t("ord_copied") : t("ord_copy_failed")); showDemoResult("fb", summary, ok); if (!ok) selectPreview(); });
     return;
   }
   copyText(summary).then(ok=>{
     showToast(ok ? t("ord_fb_copied") : t("ord_copy_failed"));
+    if (!ok) selectPreview();
     openExternal(messengerLink());
   });
 }
